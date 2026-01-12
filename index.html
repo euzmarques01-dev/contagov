@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -7,78 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Roboto,sans-serif;
- background:linear-gradient(180deg,#0a7a3d,#f4c430);
- display:flex;
- justify-content:center;
- color:#111
-}
+body{margin:0;font-family:Roboto,sans-serif;background:linear-gradient(180deg,#0a7a3d,#f4c430);display:flex;justify-content:center;color:#111}
 .app{width:100%;max-width:430px;padding:14px}
-.card{
- background:#fff;
- border-radius:22px;
- padding:16px;
- box-shadow:0 20px 50px rgba(0,0,0,.4)
-}
+.card{background:#fff;border-radius:22px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
 h1,h2,h3{text-align:center;margin:6px 0;color:#0a7a3d}
 .flag{text-align:center;margin-bottom:6px}
 .flag img{width:52px}
-button,input{
- width:100%;
- padding:12px;
- margin:6px 0;
- border-radius:12px;
- border:1px solid #ccc;
- font-size:14px
-}
-button{
- background:linear-gradient(135deg,#0a7a3d,#f4c430);
- color:#fff;
- font-weight:700;
- cursor:pointer
-}
+button,input{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid #ccc;font-size:14px}
+button{background:linear-gradient(135deg,#0a7a3d,#f4c430);color:#fff;font-weight:700;cursor:pointer}
 .green{background:#1faa59}
 .red{background:#e74c3c}
 .gray{background:#ddd;color:#222}
-.box{
- background:#f7fdf9;
- border-radius:14px;
- padding:12px;
- margin:10px 0;
- box-shadow:inset 0 0 8px rgba(0,0,0,.15)
-}
+.box{background:#f7fdf9;border-radius:14px;padding:12px;margin:10px 0;box-shadow:inset 0 0 8px rgba(0,0,0,.15)}
 .hidden{display:none}
-.valor{
- font-size:22px;
- font-weight:700;
- color:#e60000;
- animation:piscar 1s infinite
-}
-.dado{
- color:#e60000;
- animation:piscar 1.2s infinite
-}
-.contaBloqueada{
- background:#e74c3c;
- color:#fff;
- padding:6px;
- border-radius:6px;
- margin-bottom:4px;
-}
-@keyframes piscar{
- 0%{opacity:1}
- 50%{opacity:.3}
- 100%{opacity:1}
-}
-.comprovante{
- background:#fff;
- border:2px dashed #0a7a3d;
- padding:10px;
- font-size:12px;
- margin:6px 0
-}
+.valor{font-size:22px;font-weight:700;color:#e60000;animation:piscar 1s infinite}
+.dado{color:#e60000;animation:piscar 1.2s infinite}
+.contaBloqueada{background:#e74c3c;color:#fff;padding:6px;border-radius:6px;margin-bottom:4px}
+@keyframes piscar{9%{opacity:1}50%{opacity:.3}100%{opacity:1}}
+.comprovante{background:#fff;border:2px dashed #0a7a3d;padding:10px;font-size:12px;margin:6px 0}
 </style>
 </head>
 <body>
@@ -88,9 +34,9 @@ button{
 <!-- HOME -->
 <div id="home">
 <div class="flag">
-<img src="https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg">
+<img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/ac15aa127471149.61425af109006.gif">
 </div>
-<h1>Banco Governamental RP</h1>
+<h1>Banco Governamental NB</h1>
 <button id="btnAcessar">🔐 Acessar</button>
 </div>
 
@@ -117,8 +63,8 @@ Bloqueado: R$ <span id="bloq"></span>
 <div class="box">
 <h3>📈 Indicadores Econômicos</h3>
 <div id="indicadores"></div>
-<button id="btnEdit" class="hidden">✏️ Editar Indicadores</button>
-<button id="btnCriarDado" class="hidden">➕ Criar Novo Dado</button>
+<button id="btnEditIndicadores" class="hidden">✏️ Editar Indicadores</button>
+<button id="btnCriarIndicador" class="hidden">➕ Criar Novo Indicador</button>
 </div>
 
 <div class="box">
@@ -141,6 +87,8 @@ Sua chave PIX:<br>
 <h3>👑 Fundador – Controle Total</h3>
 <button id="btnTodasContas">📋 Ver Todas Contas</button>
 <div id="listaContas"></div>
+<button id="btnCriarContaFundador">➕ Criar Conta Governamental</button>
+<button id="btnCriarBoletoFundador">➕ Criar Boleto</button>
 </div>
 
 <div class="box">
@@ -170,7 +118,6 @@ Sua chave PIX:<br>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
 import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-analytics.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD7T-1Pzv4C-rtSAiAVRercQ_8TatXnaco",
@@ -178,53 +125,40 @@ const firebaseConfig = {
   projectId: "dados-a7f7b",
   storageBucket: "dados-a7f7b.firebasestorage.app",
   messagingSenderId: "539366883306",
-  appId: "1:539366883306:web:360d42c2a3976d9d817c93",
-  measurementId: "G-7J1TW85S7S"
+  appId: "1:539366883306:web:360d42c2a3976d9d817c93"
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const db = getDatabase(app);
 
-// Constantes
 const FUNDADOR_LOGIN="FUNDADOR";
 const FUNDADOR_SENHA="2007";
 const DEFAULT_INDICADORES = {
   arrecadacaoFederal:98432, arrecadacaoEstadual:40200, arrecadacaoMunicipal:18500,
-  despesasTotais:174866, pibNominal:235, pibReal:210, pibPerCapita:1660,
-  crescimentoPIB:1.2, dividaTotal:125, dividaInterna:48, dividaExterna:52, dividaPIB:53,
-  reservas:6, balancaComercial:10, exportacoes:52, importacoes:42, inflacaoAnual:1050,
-  inflacaoMensal:35, jurosBasicos:32, spreadBancario:18, cambio:2, desemprego:7.8,
-  empregoFormal:42, salarioMinimo:82, rendaMedia:150, custoVida:140, investimentoPublico:18,
-  investimentoPrivado:22, deficitFiscal:76, gasolina:0.65, diesel:0.52, confiancaMer:42
+  despesasTotais:174866, pibNominal:235, pibReal:210, pibPerCapita:1660
 };
 
-// Funções auxiliares
 function formatar(valor){ return valor.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+function tela(id){ ["home","login","painel"].forEach(x=>document.getElementById(x).classList.add("hidden")); document.getElementById(id).classList.remove("hidden"); }
 
-async function initFundador(){
+// ===== INIT =====
+async function init(){
   const snap = await get(ref(db,'contas'));
   let contas = snap.val() || [];
   if(!Array.isArray(contas)) contas = Object.values(contas);
   if(!contas.some(c=>c.login===FUNDADOR_LOGIN)){
     contas.push({login:FUNDADOR_LOGIN, senha:FUNDADOR_SENHA, tipo:"Fundador", saldo:1000000000, bloq:0});
-    set(ref(db,'contas'), contas);
+    await set(ref(db,'contas'), contas);
   }
-}
 
-async function initIndicadores(){
-  const snap = await get(ref(db,'indicadores'));
-  if(!snap.exists()){
+  const snapInd = await get(ref(db,'indicadores'));
+  if(!snapInd.exists()){
     await set(ref(db,'indicadores'), DEFAULT_INDICADORES);
   }
 }
+init();
 
-function tela(id){
-  ["home","login","painel"].forEach(x=>document.getElementById(x).classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-}
-
-// LOGIN
+// ===== LOGIN =====
 async function entrar(){
   const l = document.getElementById("luser").value.trim();
   const p = document.getElementById("lpass").value.trim();
@@ -239,55 +173,46 @@ async function entrar(){
   carregar();
 }
 
-// CARREGAR PAINEL
+// ===== CARREGAR PAINEL =====
 async function carregar(){
   const login = localStorage.getItem("user");
   if(!login) return;
   tela("painel");
 
-  // Contas
   onValue(ref(db,'contas'), snap=>{
     let contas = snap.val() || [];
     if(!Array.isArray(contas)) contas = Object.values(contas);
     const u = contas.find(c=>c.login===login);
     if(!u) return;
+
     document.getElementById("titulo").innerText = u.tipo+" – "+u.login;
     document.getElementById("saldo").innerText = "R$ "+formatar(u.saldo);
     document.getElementById("bloq").innerText = formatar(u.bloq);
     document.getElementById("fundadorPainel").classList.toggle("hidden", u.tipo!=="Fundador");
-    document.getElementById("btnEdit").classList.toggle("hidden", u.tipo!=="Fundador");
-    document.getElementById("btnCriarDado").classList.toggle("hidden", u.tipo!=="Fundador");
+
+    mostrarHistoricoBoletos(login);
+    carregarPix(login);
+    mostrarHistoricoPix(login);
+    mostrarRanking();
+    mostrarTransacoes(login);
   });
 
-  // Indicadores
   onValue(ref(db,'indicadores'), snap=>{
     const ind = snap.val() || {};
     const el = document.getElementById("indicadores");
     el.innerHTML="";
     for(let k in ind) el.innerHTML+=`${k}: <span class="dado">${ind[k]}</span><br>`;
+    const user = localStorage.getItem("user");
+    get(ref(db,'contas')).then(s=>s.val() || []).then(arr=>{
+      let contas = Array.isArray(arr)?arr:Object.values(arr);
+      const u = contas.find(c=>c.login===user);
+      document.getElementById("btnEditIndicadores").classList.toggle("hidden", u.tipo!=="Fundador");
+      document.getElementById("btnCriarIndicador").classList.toggle("hidden", u.tipo!=="Fundador");
+    });
   });
-
-  // Boletos
-  onValue(ref(db,'boletos'), snap=>{
-    const boletos = snap.val() || [];
-    const b = boletos.find(x=>x.conta===login && !x.pago);
-    document.getElementById("valorBoleto").innerText = b ? "R$ "+formatar(b.valor) : "R$ 0,00";
-    localStorage.setItem("boletoAtual", boletos.indexOf(b));
-    mostrarHistoricoBoletos(login);
-  });
-
-  // PIX
-  carregarPix(login);
-  mostrarHistoricoPix(login);
-
-  // Ranking
-  mostrarRanking();
-
-  // Comprovantes
-  mostrarTransacoes(login);
 }
 
-// FUNDADOR – CONTROLE TOTAL
+// ===== FUNDADOR =====
 async function verTodasContas(){
   const snap = await get(ref(db,'contas'));
   let contas = snap.val() || [];
@@ -296,64 +221,87 @@ async function verTodasContas(){
   const el = document.getElementById("listaContas");
   el.innerHTML = "";
 
-  contas.forEach(c=>{
+  contas.forEach((c,index)=>{
     const classeBloq = c.bloq > 0 ? "contaBloqueada" : "";
-    el.innerHTML += `<div class="comprovante ${classeBloq}">
+    const div = document.createElement("div");
+    div.className = "comprovante " + classeBloq;
+    div.innerHTML = `
       <b>Conta:</b> ${c.login} (${c.tipo})<br>
       Saldo: R$ ${formatar(c.saldo)}<br>
       Bloqueado: R$ ${formatar(c.bloq)}<br>
-      <button onclick='editarSaldoConta("${c.login}")'>💰 Editar Saldo</button>
-      <button onclick='editarSaldoBloqueado("${c.login}")'>✏️ Editar Saldo Bloqueado</button>
-      <button onclick='editarBloqConta("${c.login}")'>🔒 Bloquear/Desbloquear</button>
-      <button onclick='apagarContaFundador("${c.login}")'>🗑 Apagar</button>
-    </div>`;
+    `;
+
+    const btnSaldo = document.createElement("button");
+    btnSaldo.textContent = "💰 Editar Saldo";
+    btnSaldo.onclick = async ()=>{
+      const novo = +prompt("Novo saldo para "+c.login, c.saldo);
+      if(isNaN(novo)) return;
+      c.saldo = novo;
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    const btnBloq = document.createElement("button");
+    btnBloq.textContent = "🔒 Editar Bloqueado";
+    btnBloq.onclick = async ()=>{
+      const novo = +prompt("Novo saldo BLOQUEADO para "+c.login, c.bloq);
+      if(isNaN(novo)) return;
+      c.bloq = novo;
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    const btnApagar = document.createElement("button");
+    btnApagar.textContent = "🗑 Apagar";
+    btnApagar.onclick = async ()=>{
+      if(!confirm("Deseja realmente apagar a conta "+c.login+"?")) return;
+      contas = contas.filter(x=>x.login!==c.login);
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    div.appendChild(btnSaldo);
+    div.appendChild(btnBloq);
+    div.appendChild(btnApagar);
+    el.appendChild(div);
   });
 }
 
-async function editarSaldoConta(login){
-  const novo = +prompt("Novo saldo para "+login);
-  if(isNaN(novo)) return;
+// ===== CRIAR CONTA GOVERNAMENTAL =====
+async function criarContaGoverno(){
+  const login = prompt("Código da instituição (ex: PREFEITURA_FLO, MINSAUDE):");
+  if(!login) return alert("Código inválido");
+
+  const senha = prompt("Senha inicial da conta:");
+  if(!senha) return alert("Senha inválida");
+
+  const tipo = prompt("Tipo da instituição (Governo, Prefeitura, Ministério, Outro):", "Governo");
+  if(!tipo) return alert("Tipo inválido");
+
+  const saldoInicial = +prompt("Saldo inicial da conta (R$):", 0);
+  if(isNaN(saldoInicial) || saldoInicial < 0) return alert("Saldo inválido");
+
   const snap = await get(ref(db,'contas'));
   let contas = snap.val() || [];
   if(!Array.isArray(contas)) contas = Object.values(contas);
-  const c = contas.find(x=>x.login===login);
-  if(c) c.saldo = novo;
-  set(ref(db,'contas'), contas);
+
+  if(contas.some(c=>c.login===login)) return alert("Código já existe!");
+
+  const novaConta = {
+    login,
+    senha,
+    tipo,
+    saldo: saldoInicial,
+    bloq: 0
+  };
+
+  contas.push(novaConta);
+  await set(ref(db,'contas'), contas);
+  alert("Conta governamental criada com sucesso!");
   verTodasContas();
 }
 
-async function editarSaldoBloqueado(login){
-  const novo = +prompt("Novo saldo BLOQUEADO para "+login);
-  if(isNaN(novo)) return;
-  const snap = await get(ref(db,'contas'));
-  let contas = snap.val() || [];
-  if(!Array.isArray(contas)) contas = Object.values(contas);
-  const c = contas.find(x=>x.login===login);
-  if(c) c.bloq = novo;
-  set(ref(db,'contas'), contas);
-  verTodasContas();
-}
-
-async function editarBloqConta(login){
-  const snap = await get(ref(db,'contas'));
-  let contas = snap.val() || [];
-  if(!Array.isArray(contas)) contas = Object.values(contas);
-  const c = contas.find(x=>x.login===login);
-  if(c) c.bloq = c.bloq === 0 ? 999999 : 0;
-  set(ref(db,'contas'), contas);
-  verTodasContas();
-}
-
-async function apagarContaFundador(login){
-  const snap = await get(ref(db,'contas'));
-  let contas = snap.val() || [];
-  if(!Array.isArray(contas)) contas = Object.values(contas);
-  contas = contas.filter(x=>x.login!==login);
-  set(ref(db,'contas'), contas);
-  verTodasContas();
-}
-
-// ====== PIX ======
+// ===== PIX =====
 async function criarPix(){
   const login = localStorage.getItem("user");
   const chave = prompt("Digite sua chave PIX (CPF, e-mail ou número aleatório)");
@@ -361,8 +309,7 @@ async function criarPix(){
 
   const snap = await get(ref(db,'pix'));
   const pix = snap.val() || {};
-  if(Object.values(pix).some(x=>x.chave===chave)) 
-    return alert("Chave já usada");
+  if(Object.values(pix).some(x=>x.chave===chave)) return alert("Chave já usada");
 
   pix[login] = {chave};
   set(ref(db,'pix'), pix);
@@ -407,7 +354,6 @@ function carregarPix(login){
   });
 }
 
-// ====== HISTÓRICOS ======
 function mostrarHistoricoPix(login){
   onValue(ref(db,'transacoes'), snap=>{
     const transacoes = snap.val() || [];
@@ -427,57 +373,7 @@ function mostrarHistoricoPix(login){
   });
 }
 
-function mostrarHistoricoBoletos(login){
-  onValue(ref(db,'boletos'), snap=>{
-    const boletos = snap.val() || [];
-    const el = document.getElementById("historicoBoletos");
-    el.innerHTML = "";
-    boletos.filter(b=>b.conta===login).forEach(b=>{
-      el.innerHTML += `<div class="comprovante">
-        <b>Boleto</b> - ${b.pago ? "Pago" : "Pendente"}<hr>
-        Valor: R$ ${formatar(b.valor)}<br>
-        Código: ${b.codigo}<br>
-        Conta: ${b.conta}
-      </div>`;
-    });
-  });
-}
-
-// ====== COMPROVANTES ======
-function mostrarTransacoes(login){
-  onValue(ref(db,'transacoes'), snap=>{
-    const t = snap.val() || [];
-    const el = document.getElementById("transacoes");
-    el.innerHTML = "";
-    t.filter(x=>x.de===login||x.para===login).forEach(tr=>{
-      el.innerHTML+=`<div class="comprovante">
-      <b>Comprovante Bancário</b><hr>
-      Origem: ${tr.de}<br>
-      Destino: ${tr.para}<br>
-      Valor: R$ ${formatar(tr.valor)}<br>
-      Tipo: ${tr.tipo}<br>
-      Data: ${tr.data}
-      </div>`;
-    });
-  });
-}
-
-// ====== RANKING ======
-async function mostrarRanking(){
-  const snap = await get(ref(db,'contas'));
-  let contas = snap.val() || [];
-  if(!Array.isArray(contas)) contas = Object.values(contas);
-  contas = contas.filter(c=>c.tipo!=="Fundador");
-  contas.sort((a,b)=>b.saldo - a.saldo);
-
-  const el = document.getElementById("ranking");
-  el.innerHTML = "";
-  contas.forEach((c,i)=>{
-    el.innerHTML += `${i+1}º - ${c.login}: R$ ${formatar(c.saldo)}<br>`;
-  });
-}
-
-// ====== BOLETOS ======
+// ===== BOLETOS =====
 async function criarBoletoFundador(){
   const conta = prompt("Conta que receberá o boleto:");
   const valor = +prompt("Valor do boleto:");
@@ -499,14 +395,10 @@ async function criarBoletoFundador(){
 
 async function pagarBoleto(){
   const login = localStorage.getItem("user");
-  const idx = localStorage.getItem("boletoAtual");
-  if(idx === "null") return alert("Nenhum boleto pendente");
-
   const snapB = await get(ref(db,'boletos'));
   const boletos = snapB.val() || [];
-  const boleto = boletos[idx];
-
-  if(!boleto || boleto.pago) return alert("Boleto inválido");
+  const boleto = boletos.find(b=>b.conta===login && !b.pago);
+  if(!boleto) return alert("Nenhum boleto pendente");
 
   const snapC = await get(ref(db,'contas'));
   let contas = snapC.val() || [];
@@ -522,65 +414,71 @@ async function pagarBoleto(){
   await set(ref(db,'boletos'), boletos);
 
   alert("Boleto pago com sucesso!");
+  mostrarHistoricoBoletos(login);
 }
 
-// ====== INDICADORES ======
-async function editarIndicadores(){
-  const snap = await get(ref(db,'indicadores'));
-  const ind = snap.val() || {};
-  for(let k in ind){
-    const novo = prompt(`Novo valor para ${k}`, ind[k]);
-    if(novo !== null && novo !== "") ind[k] = isNaN(novo)?novo:+novo;
-  }
-  await set(ref(db,'indicadores'), ind);
-  alert("Indicadores atualizados!");
+// ===== HISTÓRICOS =====
+function mostrarHistoricoBoletos(login){
+  onValue(ref(db,'boletos'), snap=>{
+    const boletos = snap.val() || [];
+    const el = document.getElementById("historicoBoletos");
+    el.innerHTML = "";
+    boletos.filter(b=>b.conta===login).forEach(b=>{
+      el.innerHTML += `<div class="comprovante">
+        <b>Boleto</b> - ${b.pago ? "Pago" : "Pendente"}<hr>
+        Valor: R$ ${formatar(b.valor)}<br>
+        Código: ${b.codigo}<br>
+        Conta: ${b.conta}
+      </div>`;
+    });
+    const b = boletos.find(b=>b.conta===login && !b.pago);
+    document.getElementById("valorBoleto").innerText = b ? "R$ "+formatar(b.valor) : "R$ 0,00";
+  });
 }
 
-async function criarIndicador(){
-  const nome = prompt("Nome do indicador:");
-  const valor = prompt("Valor inicial:");
-  if(!nome || valor === null) return;
-
-  const snap = await get(ref(db,'indicadores'));
-  const ind = snap.val() || {};
-  ind[nome] = isNaN(valor)?valor:+valor;
-
-  await set(ref(db,'indicadores'), ind);
-  alert("Indicador criado!");
+function mostrarTransacoes(login){
+  onValue(ref(db,'transacoes'), snap=>{
+    const t = snap.val() || [];
+    const el = document.getElementById("transacoes");
+    el.innerHTML = "";
+    t.filter(x=>x.de===login||x.para===login).forEach(tr=>{
+      el.innerHTML += `<div class="comprovante">
+        Tipo: ${tr.tipo}<br>
+        De: ${tr.de}<br>
+        Para: ${tr.para}<br>
+        Valor: R$ ${formatar(tr.valor)}<br>
+        Data: ${tr.data}
+      </div>`;
+    });
+  });
 }
 
-// ====== EVENTOS ======
+// ===== RANKING =====
+function mostrarRanking(){
+  onValue(ref(db,'contas'), snap=>{
+    const contas = snap.val() || [];
+    const el = document.getElementById("ranking");
+    let arr = Array.isArray(contas)?contas:Object.values(contas);
+    arr = arr.sort((a,b)=>b.saldo - a.saldo);
+    el.innerHTML="";
+    arr.forEach((c,i)=>{
+      el.innerHTML+=`${i+1}. ${c.login} - R$ ${formatar(c.saldo)}<br>`;
+    });
+  });
+}
+
+// ===== EVENTOS =====
 document.getElementById("btnAcessar").onclick = ()=>tela("login");
 document.getElementById("btnVoltar").onclick = ()=>tela("home");
 document.getElementById("btnEntrar").onclick = entrar;
-document.getElementById("btnSair").onclick = ()=>{
-  localStorage.removeItem("user");
-  tela("home");
-};
+document.getElementById("btnSair").onclick = ()=>{ localStorage.removeItem("user"); tela("home"); };
 document.getElementById("btnTodasContas").onclick = verTodasContas;
+document.getElementById("btnCriarContaFundador").onclick = criarContaGoverno;
 document.getElementById("btnCriarPix").onclick = criarPix;
 document.getElementById("btnEnviarPix").onclick = enviarPix;
 document.getElementById("btnPagarBoleto").onclick = pagarBoleto;
-document.getElementById("btnEdit").onclick = editarIndicadores;
-document.getElementById("btnCriarDado").onclick = criarIndicador;
+document.getElementById("btnCriarBoletoFundador").onclick = criarBoletoFundador;
 
-// Botão criar boleto do fundador
-const painelFundador = document.getElementById("fundadorPainel");
-const btnBoleto = document.createElement("button");
-btnBoleto.innerText = "➕ Criar Boleto";
-btnBoleto.onclick = criarBoletoFundador;
-painelFundador.appendChild(btnBoleto);
-
-// Expor funções para HTML
-window.editarSaldoConta = editarSaldoConta;
-window.editarBloqConta = editarBloqConta;
-window.apagarContaFundador = apagarContaFundador;
-window.editarSaldoBloqueado = editarSaldoBloqueado;
-window.criarBoletoFundador = criarBoletoFundador;
-
-// INICIALIZAÇÃO
-initFundador();
-initIndicadores();
 </script>
 </body>
 </html>
