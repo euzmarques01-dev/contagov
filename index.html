@@ -416,29 +416,39 @@ async function pagarBoleto(){
   alert("Boleto pago com sucesso!");
   mostrarHistoricoBoletos(login);
 }
-// ===== EDITAR INDICADORES =====
+// ===== EDITAR INDICADORES (SEQUENCIAL) =====
 async function editarIndicadores(){
   const snap = await get(ref(db,'indicadores'));
   const indicadores = snap.val() || {};
 
-  const nomes = Object.keys(indicadores);
-  if(nomes.length === 0) return alert("Nenhum indicador cadastrado");
+  const chaves = Object.keys(indicadores);
+  if(chaves.length === 0){
+    alert("Nenhum indicador cadastrado");
+    return;
+  }
 
-  const escolhido = prompt(
-    "Digite o nome do indicador que deseja editar:\n\n" + nomes.join("\n")
-  );
-  if(!indicadores[escolhido]) return alert("Indicador não encontrado");
+  for(const nome of chaves){
+    const atual = indicadores[nome];
 
-  const novoValor = Number(prompt(
-    "Novo valor para "+escolhido+":",
-    indicadores[escolhido]
-  ));
-  if(isNaN(novoValor)) return alert("Valor inválido");
+    const novoValor = prompt(
+      `Indicador: ${nome}\nValor atual: ${atual}\n\nDigite o novo valor ou clique em Cancelar para manter`,
+      atual
+    );
 
-  indicadores[escolhido] = novoValor;
+    // se clicar em cancelar, mantém o valor atual
+    if(novoValor === null) continue;
+
+    const num = Number(novoValor);
+    if(isNaN(num)){
+      alert(`Valor inválido para ${nome}. Mantido o valor anterior.`);
+      continue;
+    }
+
+    indicadores[nome] = num;
+  }
+
   await set(ref(db,'indicadores'), indicadores);
-
-  alert("Indicador atualizado com sucesso!");
+  alert("Indicadores atualizados com sucesso!");
 }
 // ===== CRIAR NOVO INDICADOR =====
 async function criarIndicador(){
