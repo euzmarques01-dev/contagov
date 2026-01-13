@@ -23,7 +23,7 @@ button{background:linear-gradient(135deg,#0a7a3d,#f4c430);color:#fff;font-weight
 .valor{font-size:22px;font-weight:700;color:#e60000;animation:piscar 1s infinite}
 .dado{color:#e60000;animation:piscar 1.2s infinite}
 .contaBloqueada{background:#e74c3c;color:#fff;padding:6px;border-radius:6px;margin-bottom:4px}
-@keyframes piscar{9%{opacity:1}50%{opacity:.3}100%{opacity:1}}
+@keyframes piscar{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
 .comprovante{background:#fff;border:2px dashed #0a7a3d;padding:10px;font-size:12px;margin:6px 0}
 </style>
 </head>
@@ -34,7 +34,7 @@ button{background:linear-gradient(135deg,#0a7a3d,#f4c430);color:#fff;font-weight
 <!-- HOME -->
 <div id="home">
 <div class="flag">
-<img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/ac15aa127471149.61425af109006.gif">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmZleW1nMGVzejd1OWRyaW5pODZjcHNobHh4OWhzaDR6cW5tcnlxNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/jOz7cn5wDWf61yDmjI/giphy.gif">
 </div>
 <h1>Banco Governamental NB</h1>
 <button id="btnAcessar">🔐 Acessar</button>
@@ -416,6 +416,48 @@ async function pagarBoleto(){
   alert("Boleto pago com sucesso!");
   mostrarHistoricoBoletos(login);
 }
+// ===== EDITAR INDICADORES =====
+async function editarIndicadores(){
+  const snap = await get(ref(db,'indicadores'));
+  const indicadores = snap.val() || {};
+
+  const nomes = Object.keys(indicadores);
+  if(nomes.length === 0) return alert("Nenhum indicador cadastrado");
+
+  const escolhido = prompt(
+    "Digite o nome do indicador que deseja editar:\n\n" + nomes.join("\n")
+  );
+  if(!indicadores[escolhido]) return alert("Indicador não encontrado");
+
+  const novoValor = Number(prompt(
+    "Novo valor para "+escolhido+":",
+    indicadores[escolhido]
+  ));
+  if(isNaN(novoValor)) return alert("Valor inválido");
+
+  indicadores[escolhido] = novoValor;
+  await set(ref(db,'indicadores'), indicadores);
+
+  alert("Indicador atualizado com sucesso!");
+}
+// ===== CRIAR NOVO INDICADOR =====
+async function criarIndicador(){
+  const nome = prompt("Nome do novo indicador econômico:");
+  if(!nome) return alert("Nome inválido");
+
+  const valor = Number(prompt("Valor inicial do indicador:"));
+  if(isNaN(valor)) return alert("Valor inválido");
+
+  const snap = await get(ref(db,'indicadores'));
+  const indicadores = snap.val() || {};
+
+  if(indicadores[nome]) return alert("Esse indicador já existe");
+
+  indicadores[nome] = valor;
+  await set(ref(db,'indicadores'), indicadores);
+
+  alert("Indicador criado com sucesso!");
+}
 
 // ===== HISTÓRICOS =====
 function mostrarHistoricoBoletos(login){
@@ -478,6 +520,8 @@ document.getElementById("btnCriarPix").onclick = criarPix;
 document.getElementById("btnEnviarPix").onclick = enviarPix;
 document.getElementById("btnPagarBoleto").onclick = pagarBoleto;
 document.getElementById("btnCriarBoletoFundador").onclick = criarBoletoFundador;
+document.getElementById("btnEditIndicadores").onclick = editarIndicadores;
+document.getElementById("btnCriarIndicador").onclick = criarIndicador;
 
 </script>
 </body>
