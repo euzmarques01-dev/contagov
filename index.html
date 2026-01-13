@@ -416,7 +416,7 @@ async function pagarBoleto(){
   alert("Boleto pago com sucesso!");
   mostrarHistoricoBoletos(login);
 }
-// ===== EDITAR INDICADORES (SEQUENCIAL - SILENCIOSO) =====
+// ===== EDITAR INDICADORES (SEQUENCIAL - TEXTO + EMOJIS) =====
 async function editarIndicadores(){
   const snap = await get(ref(db,'indicadores'));
   const dadosOriginais = snap.val() || {};
@@ -433,14 +433,14 @@ async function editarIndicadores(){
     const atual = indicadores[nome];
 
     const resposta = prompt(
-      `(${i+1}/${chaves.length}) Indicador: ${nome}\nValor atual: ${atual}\n\nDigite o novo valor ou Cancelar para manter`,
+      `(${i+1}/${chaves.length}) Indicador: ${nome}\nValor atual: ${atual}\n\nDigite o novo valor (texto, número ou emoji) ou Cancelar para manter`,
       atual
     );
 
     if(resposta === null) continue;
 
-    const novo = Number(resposta);
-    if(isNaN(novo)) continue;
+    // remove espaços extras
+    const novo = resposta.trim();
 
     if(novo === atual) continue;
 
