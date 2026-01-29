@@ -78,22 +78,27 @@ import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/fir
 const firebaseConfig = {
   apiKey: "AIzaSyBvlLq0n9IGtR1zQepTYD6ceNpgta01feg",
   authDomain: "nb-brasil.firebaseapp.com",
-  databaseURL: "https://nb-brasil-default-rtdb.firebaseio.com",
   projectId: "nb-brasil",
   storageBucket: "nb-brasil.firebasestorage.app",
   messagingSenderId: "984879697926",
-  appId: "1:984879697926:web:52874c6e95a78957ab7387"
+  appId: "1:984879697926:web:52874c6e95a78957ab7387",
+  measurementId: "G-8H9D0WLQ79"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+export const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 /* ================= CONFIG ================= */
 const FUNDADOR_LOGIN="FUNDADOR";
 const FUNDADOR_SENHA="2007";
 
 /* ================= INDICADORES PADRÃO ================= */
-const INDICADORES_PADRAO = {
+
+/* ================= UTIL ================= */
+function formatar(v){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2})}
+function tela(id){["home","login","painel"].forEach(x=>docexport const INDICADORES_PADRAO = {
   "Agro PIB": "",
   "Arrecadação Municipal Total": "",
   "Arrecadação em Royalties": "",
@@ -121,28 +126,95 @@ const INDICADORES_PADRAO = {
   "Eventos culturais (anuais)": "",
   "Expectativa de vida": "",
   "Exportações municipais": "",
-  "Ferrovias urbanas": "",
+  "Ferrovias urbanas (metrô/VLT)": "",
   "Áreas verdes urbanas": "",
   "Gasto cultura/turismo": "",
   "Gastos Públicos Totais": "",
+  "Habitantes crianças/adolescentes": "",
+  "Habitantes homens": "",
+  "Habitantes mulheres": "",
+  "Homicídios": "",
+  "IPTU arrecadado": "",
+  "ISS arrecadado": "",
+  "ITBI arrecadado": "",
+  "Incêndios urbanos/ambientais": "",
+  "Inflação municipal estimada": "",
+  "Internet da população": "",
+  "Investimento Público Municipal": "",
+  "Investimento em inovação e tecnologia": "",
+  "Investimento em educação": "",
+  "Investimento em saúde": "",
+  "Leitos por habitantes": "",
+  "Lotação hospitalar": "",
+  "Moradia adequada": "",
+  "Mortalidade infantil": "",
+  "Mortalidade por doenças": "",
+  "Nº escolas privadas": "",
+  "Nº escolas públicas": "",
+  "Nº faculdades": "",
+  "Nº hospitais privados": "",
+  "Nº hospitais públicos": "",
+  "Nº universidades": "",
   "PIB municipal total": "",
   "PIB per capita": "",
+  "População rural": "",
+  "População urbana": "",
+  "População em situação de rua": "",
   "População total": "",
+  "Portos e aeroportos": "",
+  "Posição econômica nacional": "",
+  "Produção industrial": "",
+  "Produção agropecuária": "",
+  "Professores por aluno": "",
+  "Qualidade das vias urbanas": "",
+  "Qualidade das unidades de saúde": "",
+  "Qualidade hospitalar": "",
+  "Qualidade do ar": "",
   "Receitas tributárias próprias": "",
   "Renda média municipal": "",
+  "Resíduos reciclados": "",
+  "Salário médio por setor": "",
+  "Salário mínimo municipal": "",
+  "Saneamento básico": "",
+  "Sensação de segurança": "",
+  "Startups": "",
+  "Superlotação do sistema prisional municipal": "",
+  "Resultado orçamentário": "",
+  "Taxa de abandono escolar": "",
+  "Taxa de alfabetização": "",
+  "Taxa de analfabetismo": "",
+  "Taxa de crescimento populacional": "",
+  "Taxa de escolaridade fundamental": "",
+  "Taxa de escolaridade média": "",
+  "Taxa de escolaridade superior": "",
+  "Taxa de locação residencial": "",
+  "Taxa de migração": "",
   "Taxa de pobreza": "",
+  "Taxa de propriedade residencial": "",
+  "Taxa de qualificação profissional": "",
+  "Trabalho feminino": "",
+  "Trabalho juvenil": "",
   "Trabalho informal": "",
   "Transporte público": "",
+  "Turismo anual": "",
   "Vacinação": "",
   "Água potável": "",
+  "Áreas protegidas": "",
   "Índice de criminalidade": "",
   "Índice de envelhecimento": ""
 };
+ument.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden")}
 
-/* ================= UTIL ================= */
-function formatar(v){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2})}
-function tela(id){["home","login","painel"].forEach(x=>document.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden")}
-
+// CRIAR PAINEL AUTOMÁTICO
+// ===============================
+export async function criarPainel(uid, nome) {
+  await setDoc(doc(db, "paineis", uid), {
+    nome,
+    indicadores: INDICADORES_PADRAO,
+    criadoEm: serverTimestamp(),
+    atualizadoEm: serverTimestamp()
+  });
+}
 /* ================= INIT ================= */
 async function init(){
   const snap = await get(ref(db,'contas'));
