@@ -1,39 +1,48 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PORTAL GOV</title>
-
+<title>Banco Governamental RP</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Roboto,sans-serif;background:linear-gradient(180deg,#0a7a3d,#f4c430);display:flex;justify-content:center;color:#111}
-.app{width:100%;max-width:430px;padding:14px;border:4px solid #0a7a3d;border-radius:22px}
+.app{width:100%;max-width:430px;padding:14px}
 .card{background:#fff;border-radius:22px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
 h1,h2,h3{text-align:center;margin:6px 0;color:#0a7a3d}
+.flag{text-align:center;margin-bottom:6px}
+.flag img{width:52px}
 button,input{width:100%;padding:12px;margin:6px 0;border-radius:12px;border:1px solid #ccc;font-size:14px}
 button{background:linear-gradient(135deg,#0a7a3d,#f4c430);color:#fff;font-weight:700;cursor:pointer}
+.green{background:#1faa59}
 .red{background:#e74c3c}
 .gray{background:#ddd;color:#222}
-.box{background:#f7fdf9;border-radius:14px;padding:12px;margin:10px 0}
+.box{background:#f7fdf9;border-radius:14px;padding:12px;margin:10px 0;box-shadow:inset 0 0 8px rgba(0,0,0,.15)}
 .hidden{display:none}
 .valor{font-size:22px;font-weight:700;color:#e60000;animation:piscar 1s infinite}
 .dado{color:#e60000;animation:piscar 1.2s infinite}
+.contaBloqueada{background:#e74c3c;color:#fff;padding:6px;border-radius:6px;margin-bottom:4px}
 @keyframes piscar{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
+.comprovante{background:#fff;border:2px dashed #0a7a3d;padding:10px;font-size:12px;margin:6px 0}
 </style>
 </head>
-
 <body>
 <div class="app">
 <div class="card">
 
+<!-- HOME -->
 <div id="home">
-<h1>PORTAL TRANSPARENTE</h1>
+<div class="flag">
+<img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmZleW1nMGVzejd1OWRyaW5pODZjcHNobHh4OWhzaDR6cW5tcnlxNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/jOz7cn5wDWf61yDmjI/giphy.gif">
+</div>
+<h1>Banco Governamental NB</h1>
 <button id="btnAcessar">🔐 Acessar</button>
 </div>
 
+<!-- LOGIN -->
 <div id="login" class="hidden">
-<h2>Login Governamental</h2>
+<h2>Login Institucional</h2>
 <input id="luser" placeholder="Login">
 <input id="lpass" type="password" placeholder="Senha">
 <button id="btnEntrar">Entrar</button>
@@ -41,6 +50,7 @@ button{background:linear-gradient(135deg,#0a7a3d,#f4c430);color:#fff;font-weight
 <p id="msg"></p>
 </div>
 
+<!-- PAINEL -->
 <div id="painel" class="hidden">
 <h2 id="titulo"></h2>
 
@@ -51,21 +61,56 @@ Bloqueado: R$ <span id="bloq"></span>
 </div>
 
 <div class="box">
-<h3>📈 INDICADORES</h3>
+<h3>📈 Indicadores Econômicos</h3>
 <div id="indicadores"></div>
 <button id="btnEditIndicadores" class="hidden">✏️ Editar Indicadores</button>
 <button id="btnCriarIndicador" class="hidden">➕ Criar Novo Indicador</button>
 </div>
 
-<div class="box hidden" id="boxAdmin">
-<h3>👑 Administração</h3>
-<button id="btnCriarConta">➕ Criar Conta</button>
-<button id="btnApagarConta">🗑 Apagar Conta</button>
-<button id="btnVerContas">👁 Ver Contas</button>
-<div id="listaContas"></div>
+<div class="box">
+<h3>🧾 Boleto</h3>
+Valor: <span id="valorBoleto" class="valor">R$ 0,00</span>
+<button class="green" id="btnPagarBoleto">💳 Pagar Boleto</button>
 </div>
 
-<button id="btnNBDados">🔐 NB DADOS</button>
+<div class="box">
+<h3>⚡ PIX</h3>
+Sua chave PIX:<br>
+<b id="pixChave">Nenhuma</b>
+<button id="btnCriarPix">➕ Criar PIX</button>
+<input id="pixValor" placeholder="Valor a enviar" type="number">
+<input id="pixPara" placeholder="Conta destino">
+<button id="btnEnviarPix">Enviar PIX</button>
+</div>
+
+<div id="fundadorPainel" class="box hidden">
+<h3>👑 Fundador – Controle Total</h3>
+<button id="btnTodasContas">📋 Ver Todas Contas</button>
+<div id="listaContas"></div>
+<button id="btnCriarContaFundador">➕ Criar Conta Governamental</button>
+<button id="btnCriarBoletoFundador">➕ Criar Boleto</button>
+</div>
+
+<div class="box">
+<h3>📑 Comprovantes</h3>
+<div id="transacoes"></div>
+</div>
+
+<div class="box">
+<h3>📌 Histórico PIX</h3>
+<div id="historicoPix"></div>
+</div>
+
+<div class="box">
+<h3>📌 Histórico Boletos</h3>
+<div id="historicoBoletos"></div>
+</div>
+
+<div class="box">
+<h3>📊 Ranking de Riqueza</h3>
+<div id="ranking"></div>
+</div>
+
 <button class="red" id="btnSair">🚪 Sair</button>
 </div>
 </div>
@@ -74,246 +119,422 @@ Bloqueado: R$ <span id="bloq"></span>
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
 import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-database.js";
 
-/* ================= FIREBASE ================= */
 const firebaseConfig = {
-  apiKey: "AIzaSyBvlLq0n9IGtR1zQepTYD6ceNpgta01feg",
-  authDomain: "nb-brasil.firebaseapp.com",
-  projectId: "nb-brasil",
-  storageBucket: "nb-brasil.firebasestorage.app",
-  messagingSenderId: "984879697926",
-  appId: "1:984879697926:web:52874c6e95a78957ab7387",
-  measurementId: "G-8H9D0WLQ79"
+  apiKey: "AIzaSyD7T-1Pzv4C-rtSAiAVRercQ_8TatXnaco",
+  authDomain: "dados-a7f7b.firebaseapp.com",
+  projectId: "dados-a7f7b",
+  storageBucket: "dados-a7f7b.firebasestorage.app",
+  messagingSenderId: "539366883306",
+  appId: "1:539366883306:web:360d42c2a3976d9d817c93"
 };
 
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-/* ================= CONFIG ================= */
 const FUNDADOR_LOGIN="FUNDADOR";
 const FUNDADOR_SENHA="2007";
-
-/* ================= INDICADORES PADRÃO ================= */
-
-/* ================= UTIL ================= */
-function formatar(v){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2})}
-function tela(id){["home","login","painel"].forEach(x=>docexport const INDICADORES_PADRAO = {
-  "Agro PIB": "",
-  "Arrecadação Municipal Total": "",
-  "Arrecadação em Royalties": "",
-  "Blindados e veículos de segurança": "",
-  "Classificação Ecológica": "",
-  "Cobertura de Planos de saúde": "",
-  "Cobertura de saúde pública": "",
-  "Consultas anuais por habitante": "",
-  "Crescimento do PIB municipal": "",
-  "Crimes Violentos": "",
-  "Custo de vida": "",
-  "Delegacias e bases operacionais": "",
-  "Desemprego": "",
-  "Desmatamento (km²)": "",
-  "Disponibilidade de leitos": "",
-  "Déficit Fiscal": "",
-  "Déficit Habitacional": "",
-  "Dívida Municipal": "",
-  "Dívida por habitante": "",
-  "Efetivo de segurança pública": "",
-  "Emissão de CO² per capita": "",
-  "Empregos no setor industrial": "",
-  "Energia cobertura": "",
-  "Extensão viária pavimentada": "",
-  "Eventos culturais (anuais)": "",
-  "Expectativa de vida": "",
-  "Exportações municipais": "",
-  "Ferrovias urbanas (metrô/VLT)": "",
-  "Áreas verdes urbanas": "",
-  "Gasto cultura/turismo": "",
-  "Gastos Públicos Totais": "",
-  "Habitantes crianças/adolescentes": "",
-  "Habitantes homens": "",
-  "Habitantes mulheres": "",
-  "Homicídios": "",
-  "IPTU arrecadado": "",
-  "ISS arrecadado": "",
-  "ITBI arrecadado": "",
-  "Incêndios urbanos/ambientais": "",
-  "Inflação municipal estimada": "",
-  "Internet da população": "",
-  "Investimento Público Municipal": "",
-  "Investimento em inovação e tecnologia": "",
-  "Investimento em educação": "",
-  "Investimento em saúde": "",
-  "Leitos por habitantes": "",
-  "Lotação hospitalar": "",
-  "Moradia adequada": "",
-  "Mortalidade infantil": "",
-  "Mortalidade por doenças": "",
-  "Nº escolas privadas": "",
-  "Nº escolas públicas": "",
-  "Nº faculdades": "",
-  "Nº hospitais privados": "",
-  "Nº hospitais públicos": "",
-  "Nº universidades": "",
-  "PIB municipal total": "",
-  "PIB per capita": "",
-  "População rural": "",
-  "População urbana": "",
-  "População em situação de rua": "",
-  "População total": "",
-  "Portos e aeroportos": "",
-  "Posição econômica nacional": "",
-  "Produção industrial": "",
-  "Produção agropecuária": "",
-  "Professores por aluno": "",
-  "Qualidade das vias urbanas": "",
-  "Qualidade das unidades de saúde": "",
-  "Qualidade hospitalar": "",
-  "Qualidade do ar": "",
-  "Receitas tributárias próprias": "",
-  "Renda média municipal": "",
-  "Resíduos reciclados": "",
-  "Salário médio por setor": "",
-  "Salário mínimo municipal": "",
-  "Saneamento básico": "",
-  "Sensação de segurança": "",
-  "Startups": "",
-  "Superlotação do sistema prisional municipal": "",
-  "Resultado orçamentário": "",
-  "Taxa de abandono escolar": "",
-  "Taxa de alfabetização": "",
-  "Taxa de analfabetismo": "",
-  "Taxa de crescimento populacional": "",
-  "Taxa de escolaridade fundamental": "",
-  "Taxa de escolaridade média": "",
-  "Taxa de escolaridade superior": "",
-  "Taxa de locação residencial": "",
-  "Taxa de migração": "",
-  "Taxa de pobreza": "",
-  "Taxa de propriedade residencial": "",
-  "Taxa de qualificação profissional": "",
-  "Trabalho feminino": "",
-  "Trabalho juvenil": "",
-  "Trabalho informal": "",
-  "Transporte público": "",
-  "Turismo anual": "",
-  "Vacinação": "",
-  "Água potável": "",
-  "Áreas protegidas": "",
-  "Índice de criminalidade": "",
-  "Índice de envelhecimento": ""
+const DEFAULT_INDICADORES = {
+  arrecadacaoFederal:98432, arrecadacaoEstadual:40200, arrecadacaoMunicipal:18500,
+  despesasTotais:174866, pibNominal:235, pibReal:210, pibPerCapita:1660
 };
-ument.getElementById(x).classList.add("hidden"));document.getElementById(id).classList.remove("hidden")}
 
-// CRIAR PAINEL AUTOMÁTICO
-// ===============================
-export async function criarPainel(uid, nome) {
-  await setDoc(doc(db, "paineis", uid), {
-    nome,
-    indicadores: INDICADORES_PADRAO,
-    criadoEm: serverTimestamp(),
-    atualizadoEm: serverTimestamp()
-  });
-}
-/* ================= INIT ================= */
+function formatar(valor){ return valor.toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2}); }
+function tela(id){ ["home","login","painel"].forEach(x=>document.getElementById(x).classList.add("hidden")); document.getElementById(id).classList.remove("hidden"); }
+
+// ===== INIT =====
 async function init(){
   const snap = await get(ref(db,'contas'));
   let contas = snap.val() || [];
   if(!Array.isArray(contas)) contas = Object.values(contas);
-
   if(!contas.some(c=>c.login===FUNDADOR_LOGIN)){
-    contas.push({login:FUNDADOR_LOGIN,senha:FUNDADOR_SENHA,tipo:"Fundador",saldo:1000000000,bloq:0});
-    await set(ref(db,'contas'),contas);
-    await set(ref(db,`indicadoresPorConta/${FUNDADOR_LOGIN}`),INDICADORES_PADRAO);
+    contas.push({login:FUNDADOR_LOGIN, senha:FUNDADOR_SENHA, tipo:"Fundador", saldo:1000000000, bloq:0});
+    await set(ref(db,'contas'), contas);
+  }
+
+  const snapInd = await get(ref(db,'indicadores'));
+  if(!snapInd.exists()){
+    await set(ref(db,'indicadores'), DEFAULT_INDICADORES);
   }
 }
 init();
 
-/* ================= LOGIN ================= */
+// ===== LOGIN =====
 async function entrar(){
-  const l=luser.value.trim(),p=lpass.value.trim();
-  const snap=await get(ref(db,'contas'));
-  let contas=snap.val()||[]; if(!Array.isArray(contas)) contas=Object.values(contas);
-  const u=contas.find(c=>c.login===l&&c.senha===p);
-  if(!u) return msg.innerText="Acesso negado";
-  localStorage.setItem("user",u.login);
+  const l = document.getElementById("luser").value.trim();
+  const p = document.getElementById("lpass").value.trim();
+  if(!l||!p){document.getElementById("msg").innerText="Digite login e senha"; return;}
+  const snap = await get(ref(db,'contas'));
+  let contas = snap.val() || [];
+  if(!Array.isArray(contas)) contas = Object.values(contas);
+  const user = contas.find(c=>c.login===l && c.senha===p);
+  if(!user){document.getElementById("msg").innerText="Acesso negado"; return;}
+  localStorage.setItem("user", user.login);
+  document.getElementById("msg").innerText="";
   carregar();
 }
 
-/* ================= PAINEL ================= */
-function carregar(){
-  const login=localStorage.getItem("user");
+// ===== CARREGAR PAINEL =====
+async function carregar(){
+  const login = localStorage.getItem("user");
+  if(!login) return;
   tela("painel");
-  onValue(ref(db,'contas'),snap=>{
-    let contas=snap.val()||[]; if(!Array.isArray(contas)) contas=Object.values(contas);
-    const u=contas.find(c=>c.login===login);
+
+  onValue(ref(db,'contas'), snap=>{
+    let contas = snap.val() || [];
+    if(!Array.isArray(contas)) contas = Object.values(contas);
+    const u = contas.find(c=>c.login===login);
     if(!u) return;
-    titulo.innerText=u.tipo+" – "+u.login;
-    saldo.innerText="R$ "+formatar(u.saldo);
-    bloq.innerText=formatar(u.bloq);
-    boxAdmin.classList.toggle("hidden",u.tipo!=="Fundador");
-    carregarIndicadores(login);
+
+    document.getElementById("titulo").innerText = u.tipo+" – "+u.login;
+    document.getElementById("saldo").innerText = "R$ "+formatar(u.saldo);
+    document.getElementById("bloq").innerText = formatar(u.bloq);
+    document.getElementById("fundadorPainel").classList.toggle("hidden", u.tipo!=="Fundador");
+
+    mostrarHistoricoBoletos(login);
+    carregarPix(login);
+    mostrarHistoricoPix(login);
+    mostrarRanking();
+    mostrarTransacoes(login);
+  });
+
+  onValue(ref(db,'indicadores'), snap=>{
+    const ind = snap.val() || {};
+    const el = document.getElementById("indicadores");
+    el.innerHTML="";
+    for(let k in ind) el.innerHTML+=`${k}: <span class="dado">${ind[k]}</span><br>`;
+    const user = localStorage.getItem("user");
+    get(ref(db,'contas')).then(s=>s.val() || []).then(arr=>{
+      let contas = Array.isArray(arr)?arr:Object.values(arr);
+      const u = contas.find(c=>c.login===user);
+      document.getElementById("btnEditIndicadores").classList.toggle("hidden", u.tipo!=="Fundador");
+      document.getElementById("btnCriarIndicador").classList.toggle("hidden", u.tipo!=="Fundador");
+    });
   });
 }
 
-/* ================= INDICADORES ================= */
-function carregarIndicadores(login){
-  onValue(ref(db,`indicadoresPorConta/${login}`),snap=>{
-    const ind=snap.val()||{};
-    indicadores.innerHTML="";
-    for(const k in ind) indicadores.innerHTML+=`${k}: <span class="dado">${ind[k]}</span><br>`;
+// ===== FUNDADOR =====
+async function verTodasContas(){
+  const snap = await get(ref(db,'contas'));
+  let contas = snap.val() || [];
+  if(!Array.isArray(contas)) contas = Object.values(contas);
+
+  const el = document.getElementById("listaContas");
+  el.innerHTML = "";
+
+  contas.forEach((c,index)=>{
+    const classeBloq = c.bloq > 0 ? "contaBloqueada" : "";
+    const div = document.createElement("div");
+    div.className = "comprovante " + classeBloq;
+    div.innerHTML = `
+      <b>Conta:</b> ${c.login} (${c.tipo})<br>
+      Saldo: R$ ${formatar(c.saldo)}<br>
+      Bloqueado: R$ ${formatar(c.bloq)}<br>
+    `;
+
+    const btnSaldo = document.createElement("button");
+    btnSaldo.textContent = "💰 Editar Saldo";
+    btnSaldo.onclick = async ()=>{
+      const novo = +prompt("Novo saldo para "+c.login, c.saldo);
+      if(isNaN(novo)) return;
+      c.saldo = novo;
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    const btnBloq = document.createElement("button");
+    btnBloq.textContent = "🔒 Editar Bloqueado";
+    btnBloq.onclick = async ()=>{
+      const novo = +prompt("Novo saldo BLOQUEADO para "+c.login, c.bloq);
+      if(isNaN(novo)) return;
+      c.bloq = novo;
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    const btnApagar = document.createElement("button");
+    btnApagar.textContent = "🗑 Apagar";
+    btnApagar.onclick = async ()=>{
+      if(!confirm("Deseja realmente apagar a conta "+c.login+"?")) return;
+      contas = contas.filter(x=>x.login!==c.login);
+      await set(ref(db,'contas'), contas);
+      verTodasContas();
+    };
+
+    div.appendChild(btnSaldo);
+    div.appendChild(btnBloq);
+    div.appendChild(btnApagar);
+    el.appendChild(div);
   });
 }
 
-/* ================= CRIAR CONTA ================= */
-btnCriarConta.onclick=async()=>{
-  const login=prompt("Login:"),senha=prompt("Senha:");
-  if(!login||!senha) return;
-  const snap=await get(ref(db,'contas'));
-  let contas=snap.val()||[]; if(!Array.isArray(contas)) contas=Object.values(contas);
-  if(contas.some(c=>c.login===login)) return alert("Conta existe!");
-  contas.push({login,senha,tipo:"Conta",saldo:0,bloq:0});
-  await set(ref(db,'contas'),contas);
-  await set(ref(db,`indicadoresPorConta/${login}`),INDICADORES_PADRAO);
-  alert("Conta criada com indicadores!");
-};
+// ===== CRIAR CONTA GOVERNAMENTAL =====
+async function criarContaGoverno(){
+  const login = prompt("Código da instituição (ex: PREFEITURA_FLO, MINSAUDE):");
+  if(!login) return alert("Código inválido");
 
-/* ================= NB DADOS ================= */
-btnNBDados.onclick=()=>{
-  const s=prompt("Senha NB DADOS:");
-  if(s!==FUNDADOR_SENHA) return alert("Senha inválida");
-  btnEditIndicadores.classList.remove("hidden");
-  btnCriarIndicador.classList.remove("hidden");
-};
+  const senha = prompt("Senha inicial da conta:");
+  if(!senha) return alert("Senha inválida");
 
-btnEditIndicadores.onclick=async()=>{
-  const login=localStorage.getItem("user");
-  const r=ref(db,`indicadoresPorConta/${login}`);
-  const snap=await get(r);
-  const ind=snap.val()||{};
-  for(const k in ind){
-    const v=prompt(k,ind[k]);
-    if(v!==null) ind[k]=v;
+  const tipo = prompt("Tipo da instituição (Governo, Prefeitura, Ministério, Outro):", "Governo");
+  if(!tipo) return alert("Tipo inválido");
+
+  const saldoInicial = +prompt("Saldo inicial da conta (R$):", 0);
+  if(isNaN(saldoInicial) || saldoInicial < 0) return alert("Saldo inválido");
+
+  const snap = await get(ref(db,'contas'));
+  let contas = snap.val() || [];
+  if(!Array.isArray(contas)) contas = Object.values(contas);
+
+  if(contas.some(c=>c.login===login)) return alert("Código já existe!");
+
+  const novaConta = {
+    login,
+    senha,
+    tipo,
+    saldo: saldoInicial,
+    bloq: 0
+  };
+
+  contas.push(novaConta);
+  await set(ref(db,'contas'), contas);
+  alert("Conta governamental criada com sucesso!");
+  verTodasContas();
+}
+
+// ===== PIX =====
+async function criarPix(){
+  const login = localStorage.getItem("user");
+  const chave = prompt("Digite sua chave PIX (CPF, e-mail ou número aleatório)");
+  if(!chave) return alert("Chave inválida");
+
+  const snap = await get(ref(db,'pix'));
+  const pix = snap.val() || {};
+  if(Object.values(pix).some(x=>x.chave===chave)) return alert("Chave já usada");
+
+  pix[login] = {chave};
+  set(ref(db,'pix'), pix);
+  alert("PIX criado com sucesso!");
+}
+
+async function enviarPix(){
+  const de = localStorage.getItem("user");
+  const para = document.getElementById("pixPara").value.trim();
+  const valor = +document.getElementById("pixValor").value;
+  if(!para || valor<=0) return alert("Dados inválidos");
+
+  const snapContas = await get(ref(db,'contas'));
+  let contas = snapContas.val() || [];
+  if(!Array.isArray(contas)) contas = Object.values(contas);
+
+  const u = contas.find(c=>c.login===de);
+  const destino = contas.find(c=>c.login===para);
+  if(!u || !destino) return alert("Conta destino inválida");
+  if(u.saldo<valor) return alert("Saldo insuficiente");
+
+  u.saldo -= valor;
+  destino.saldo += valor;
+
+  set(ref(db,'contas'), contas);
+
+  const snapTrans = await get(ref(db,'transacoes'));
+  const transacoes = snapTrans.val() || [];
+  transacoes.push({de, para, valor, data:new Date().toLocaleString(), tipo:"PIX"});
+  set(ref(db,'transacoes'), transacoes);
+
+  mostrarHistoricoPix(de);
+  mostrarTransacoes(de);
+}
+
+function carregarPix(login){
+  onValue(ref(db,'pix'), snap=>{
+    const pix = snap.val() || {};
+    const el = document.getElementById("pixChave");
+    if(pix[login]) el.innerText = pix[login].chave;
+    else el.innerText = "Nenhuma";
+  });
+}
+
+function mostrarHistoricoPix(login){
+  onValue(ref(db,'transacoes'), snap=>{
+    const transacoes = snap.val() || [];
+    const el = document.getElementById("historicoPix");
+    el.innerHTML = "";
+    const pixs = transacoes.filter(t=>t.tipo==="PIX" && (t.de===login || t.para===login));
+    if(pixs.length===0) el.innerHTML="<i>Nenhuma transação PIX</i>";
+    pixs.forEach(tr=>{
+      el.innerHTML += `<div class="comprovante">
+        <b>Comprovante PIX</b><hr>
+        Origem: ${tr.de}<br>
+        Destino: ${tr.para}<br>
+        Valor: R$ ${formatar(tr.valor)}<br>
+        Data: ${tr.data}
+      </div>`;
+    });
+  });
+}
+
+// ===== BOLETOS =====
+async function criarBoletoFundador(){
+  const conta = prompt("Conta que receberá o boleto:");
+  const valor = +prompt("Valor do boleto:");
+  if(!conta || valor <= 0) return alert("Dados inválidos");
+
+  const snap = await get(ref(db,'boletos'));
+  const boletos = snap.val() || [];
+
+  boletos.push({
+    conta,
+    valor,
+    codigo: "BLT-"+Math.floor(Math.random()*999999),
+    pago:false
+  });
+
+  await set(ref(db,'boletos'), boletos);
+  alert("Boleto criado com sucesso!");
+}
+
+async function pagarBoleto(){
+  const login = localStorage.getItem("user");
+  const snapB = await get(ref(db,'boletos'));
+  const boletos = snapB.val() || [];
+  const boleto = boletos.find(b=>b.conta===login && !b.pago);
+  if(!boleto) return alert("Nenhum boleto pendente");
+
+  const snapC = await get(ref(db,'contas'));
+  let contas = snapC.val() || [];
+  if(!Array.isArray(contas)) contas = Object.values(contas);
+
+  const user = contas.find(c=>c.login===login);
+  if(user.saldo < boleto.valor) return alert("Saldo insuficiente");
+
+  user.saldo -= boleto.valor;
+  boleto.pago = true;
+
+  await set(ref(db,'contas'), contas);
+  await set(ref(db,'boletos'), boletos);
+
+  alert("Boleto pago com sucesso!");
+  mostrarHistoricoBoletos(login);
+}
+// ===== EDITAR INDICADORES (SEQUENCIAL - TEXTO + EMOJIS) =====
+async function editarIndicadores(){
+  const snap = await get(ref(db,'indicadores'));
+  const dadosOriginais = snap.val() || {};
+
+  const indicadores = JSON.parse(JSON.stringify(dadosOriginais));
+  const chaves = Object.keys(indicadores);
+
+  if(chaves.length === 0) return;
+
+  let alterou = false;
+
+  for(let i = 0; i < chaves.length; i++){
+    const nome = chaves[i];
+    const atual = indicadores[nome];
+
+    const resposta = prompt(
+      `(${i+1}/${chaves.length}) Indicador: ${nome}\nValor atual: ${atual}\n\nDigite o novo valor (texto, número ou emoji) ou Cancelar para manter`,
+      atual
+    );
+
+    if(resposta === null) continue;
+
+    // remove espaços extras
+    const novo = resposta.trim();
+
+    if(novo === atual) continue;
+
+    indicadores[nome] = novo;
+    alterou = true;
   }
-  await set(r,ind);
-};
 
-btnCriarIndicador.onclick=async()=>{
-  const login=localStorage.getItem("user");
-  const nome=prompt("Nome indicador:");
-  if(!nome) return;
-  const r=ref(db,`indicadoresPorConta/${login}`);
-  const snap=await get(r);
-  const ind=snap.val()||{};
-  ind[nome]="";
-  await set(r,ind);
-};
+  if(!alterou) return;
 
-/* ================= EVENTOS ================= */
-btnAcessar.onclick=()=>tela("login");
-btnVoltar.onclick=()=>tela("home");
-btnEntrar.onclick=entrar;
-btnSair.onclick=()=>{localStorage.clear();tela("home");};
+  await set(ref(db,'indicadores'), indicadores);
+}
+// ===== CRIAR NOVO INDICADOR =====
+async function criarIndicador(){
+  const nome = prompt("Nome do novo indicador econômico:");
+  if(!nome) return alert("Nome inválido");
+
+  const valor = Number(prompt("Valor inicial do indicador:"));
+  if(isNaN(valor)) return alert("Valor inválido");
+
+  const snap = await get(ref(db,'indicadores'));
+  const indicadores = snap.val() || {};
+
+  if(indicadores[nome]) return alert("Esse indicador já existe");
+
+  indicadores[nome] = valor;
+  await set(ref(db,'indicadores'), indicadores);
+
+  alert("Indicador criado com sucesso!");
+}
+
+// ===== HISTÓRICOS =====
+function mostrarHistoricoBoletos(login){
+  onValue(ref(db,'boletos'), snap=>{
+    const boletos = snap.val() || [];
+    const el = document.getElementById("historicoBoletos");
+    el.innerHTML = "";
+    boletos.filter(b=>b.conta===login).forEach(b=>{
+      el.innerHTML += `<div class="comprovante">
+        <b>Boleto</b> - ${b.pago ? "Pago" : "Pendente"}<hr>
+        Valor: R$ ${formatar(b.valor)}<br>
+        Código: ${b.codigo}<br>
+        Conta: ${b.conta}
+      </div>`;
+    });
+    const b = boletos.find(b=>b.conta===login && !b.pago);
+    document.getElementById("valorBoleto").innerText = b ? "R$ "+formatar(b.valor) : "R$ 0,00";
+  });
+}
+
+function mostrarTransacoes(login){
+  onValue(ref(db,'transacoes'), snap=>{
+    const t = snap.val() || [];
+    const el = document.getElementById("transacoes");
+    el.innerHTML = "";
+    t.filter(x=>x.de===login||x.para===login).forEach(tr=>{
+      el.innerHTML += `<div class="comprovante">
+        Tipo: ${tr.tipo}<br>
+        De: ${tr.de}<br>
+        Para: ${tr.para}<br>
+        Valor: R$ ${formatar(tr.valor)}<br>
+        Data: ${tr.data}
+      </div>`;
+    });
+  });
+}
+
+// ===== RANKING =====
+function mostrarRanking(){
+  onValue(ref(db,'contas'), snap=>{
+    const contas = snap.val() || [];
+    const el = document.getElementById("ranking");
+    let arr = Array.isArray(contas)?contas:Object.values(contas);
+    arr = arr.sort((a,b)=>b.saldo - a.saldo);
+    el.innerHTML="";
+    arr.forEach((c,i)=>{
+      el.innerHTML+=`${i+1}. ${c.login} - R$ ${formatar(c.saldo)}<br>`;
+    });
+  });
+}
+
+// ===== EVENTOS =====
+document.getElementById("btnAcessar").onclick = ()=>tela("login");
+document.getElementById("btnVoltar").onclick = ()=>tela("home");
+document.getElementById("btnEntrar").onclick = entrar;
+document.getElementById("btnSair").onclick = ()=>{ localStorage.removeItem("user"); tela("home"); };
+document.getElementById("btnTodasContas").onclick = verTodasContas;
+document.getElementById("btnCriarContaFundador").onclick = criarContaGoverno;
+document.getElementById("btnCriarPix").onclick = criarPix;
+document.getElementById("btnEnviarPix").onclick = enviarPix;
+document.getElementById("btnPagarBoleto").onclick = pagarBoleto;
+document.getElementById("btnCriarBoletoFundador").onclick = criarBoletoFundador;
+document.getElementById("btnEditIndicadores").onclick = editarIndicadores;
+document.getElementById("btnCriarIndicador").onclick = criarIndicador;
+
 </script>
 </body>
 </html>
